@@ -1,0 +1,3 @@
+For at installere dependencies, er det nemmest at compilere dem i et arbitræt project med DUB, og:
+1. Tilføj pathen til .d filerne. F.eks. "import vibe.d;" kræver et bibliotek "vibe" der indeholder "d.d". Dette skal blot være i ens Compiler Settings for et project under Additional Imports.
+2. Tilføj pathen til .lib filerne. F.eks. Hvis linkeren kommer med en masse der ikke kan linkes (ligner alm. C linker errors), så tilføjes pathen til de relevante .lib filer (for vibe.d bliver vibe-d.lib placeret i project roden for vibe og dependency libs i lib/<platform>/) i "Library Search Path" for linkeren. De enkelte lib filer skal så listes i "Library Files".
