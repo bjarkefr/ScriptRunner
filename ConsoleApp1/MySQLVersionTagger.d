@@ -6,44 +6,9 @@ import std.conv;
 import std.string;
 import mysql.connection;
 
-//import std.net.uri; // from the extras section - I took this file directly off MikevanDongen's GitHub page
-//import vibe.db.mongo.client;
-//import vibe.db.mongo.mongo;
-//
-//import vibe.data.bson;
-
-//class MongoVersionDoc
-//{
-//    public static const BsonObjectID Id;
-//
-//    static this()
-//    {
-//        Id = BsonObjectID.fromString("50f92bfd2960520c80888326");
-//    }
-//
-//    public BsonObjectID _id;
-//
-//    public this() {} // Deserialization constructor
-//
-//    public this(VersionInfo info)
-//    {
-//        _id = Id;
-//        State = to!string(info.State);
-//        Tag = info.Tag;
-//        Version = info.Version;
-//    }
-//
-//    public VersionInfo toVersionInfo()
-//    {
-//        return new VersionInfo(Version, to!(VersionInfo.RunState)(State), Tag);
-//    }
-//
-//    public int Version;
-//    public string Tag;
-//    public string State;
-//}
-
 static const int Id = 7704;
+
+//TODO: Note that the mysql-native driver seems to give a strange "Assertion error" when the user doesn't have access to the database. At least when talking to a MariaDB.
 
 public class MySQLVersionTagger : DBVersionTagger
 {
@@ -54,11 +19,6 @@ public class MySQLVersionTagger : DBVersionTagger
 	{
 		this.connection = new Connection(connection);
 		this.table = table;
-	}
-
-	private void BindParameters(Command* cmd)
-	{
-
 	}
 
 	public override void InitializeDBImpl()
@@ -72,8 +32,6 @@ public class MySQLVersionTagger : DBVersionTagger
 		auto command1 = new Command(connection, format("create table %s (Id int not null primary key, Version int not null, State varchar(32) not null, Tag varchar(1024) not null)", table));
 		scope(exit) { command1.releaseStatement(); }
 		command1.execSQL(count);
-		//command1.prepare();
-		//command1.execPrepared(count);
 		command1.releaseStatement();
 
 		auto command2 = new Command(connection, format("insert into %s (Id, Version, State, Tag) values (?, ?, ?, ?)", table));
@@ -105,7 +63,7 @@ public class MySQLVersionTagger : DBVersionTagger
 		Row row = result.front();
 		info = new VersionInfo(
 			row[0].coerce!int,
-			VersionInfo.RunState.OK, //to!VersionInfo.RunState(row[1].coerce!string),
+			to!(VersionInfo.RunState)(row[1].coerce!string),
 			row[2].coerce!string
 			);
 	}

@@ -82,14 +82,23 @@ class FSScriptRepository
 	{
 		Tuple!(int, string)[] allScripts = ReadScripts();
 
+		int oldestVersion = 0;
 		latestVersion = 0;
-		if (allScripts.length > 0)
+
+		if(allScripts.length > 0)
+		{
+			oldestVersion = allScripts[0][0];
 			latestVersion = allScripts[$-1][0];
+		}
+
+		if(startVersion + 1 < oldestVersion)
+			throw new ScriptRepositorySanityException(format("Requested script version %d is older than earliest available version %d!", startVersion + 1, oldestVersion));
 
 		if(startVersion > latestVersion)
 			throw new ScriptRepositorySanityException(format("Requested script version %d is newer than the latest available version %d!", startVersion, latestVersion));
 
 		auto relevantScripts = filter!(script => script[0] > startVersion) (allScripts);
+
 		return array(map!(script => script[1]) (relevantScripts));
 	}
 }

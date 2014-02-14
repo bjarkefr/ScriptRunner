@@ -47,7 +47,7 @@
   <compiler>0</compiler>
   <otherDMD>0</otherDMD>
   <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
-  <imppath>C:\Users\frosigb\AppData\Roaming\dub\packages\vibe-d-0.7.18\source C:\Users\frosigb\AppData\Roaming\dub\packages\openssl-master C:\Users\frosigb\AppData\Roaming\dub\packages\vibe-d-0.7.18\source C:\Users\frosigb\AppData\Roaming\dub\packages\mysql-native-0.0.12\source</imppath>
+  <imppath>C:\Users\FrosigB\AppData\Roaming\dub\packages\vibe-d-0.7.18\source C:\Users\FrosigB\AppData\Roaming\dub\packages\openssl-master C:\Users\FrosigB\AppData\Roaming\dub\packages\vibe-d-0.7.18\source C:\Users\FrosigB\AppData\Roaming\dub\packages\mysql-native-0.0.12\source</imppath>
   <fileImppath />
   <outdir>$(ConfigurationName)</outdir>
   <objdir>$(OutDir)</objdir>
@@ -84,7 +84,7 @@
   <objfiles />
   <linkswitches />
   <libfiles>ssl.lib event2.lib eay.lib vibe-d.lib mysql-native.lib</libfiles>
-  <libpaths>C:\Users\frosigb\AppData\Roaming\dub\packages\vibe-d-0.7.18 C:\Users\frosigb\AppData\Roaming\dub\packages\vibe-d-0.7.18\lib\win-i386 C:\Users\frosigb\AppData\Roaming\dub\packages\mysql-native-0.0.12</libpaths>
+  <libpaths>C:\Users\FrosigB\AppData\Roaming\dub\packages\vibe-d-0.7.18 C:\Users\FrosigB\AppData\Roaming\dub\packages\vibe-d-0.7.18\lib\win-i386 C:\Users\FrosigB\AppData\Roaming\dub\packages\mysql-native-0.0.12</libpaths>
   <deffile />
   <resfile />
   <exefile>$(OutDir)\$(ProjectName).exe</exefile>
@@ -200,6 +200,7 @@
     <File path="MongoVersionTagger.d" />
    </Folder>
    <Folder name="MySQL">
+    <File path="ExternalMySQLHandler.d" />
     <File path="MySQLConfiguration.d" />
     <File path="MySQLVersionTagger.d" />
    </Folder>

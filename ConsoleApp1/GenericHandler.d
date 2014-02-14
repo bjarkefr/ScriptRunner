@@ -19,14 +19,12 @@ public interface ScriptHandler
 public class GenericHandler : ScriptHandler
 {
 	protected string extension;
-	protected string program;
-	protected string argTemplate;
+	protected string command;
 
-	public this(string extension, string program, string argTemplate)
+	public this(string extension, string command)
 	{
 		this.extension = extension;
-		this.program = program;
-		this.argTemplate = argTemplate;
+		this.command = command;
 	}
 
 	public bool CanHandle(string extension)
@@ -36,12 +34,12 @@ public class GenericHandler : ScriptHandler
 
 	public void Run(string fullpath)
 	{
-		string argument = format(argTemplate, fullpath);
+		string fullCommand = command ~ ' ' ~ fullpath;
 
-		writeln("\nRunning '%s %s':", program, argument); //TODO: Some kind of logging facility?
+		writeln(format("\nRunning '%s':", fullCommand)); //TODO: Some kind of logging facility?
 
-		if(wait(spawnProcess([program, argument])) != 0) // I'm using spawnProcess rather than execute to avoid redirecting stdin, stdio and stderr.
-			throw new ScriptDispatchException(format("Script execution failed for '%s %s'", program, argument));
+		if(wait(spawnShell(fullCommand)) != 0) // I'm using spawnProcess rather than execute to avoid redirecting stdin, stdio and stderr.
+			throw new ScriptDispatchException(format("Script execution failed for '%s'", fullCommand));
 
 		writeln();
 	}

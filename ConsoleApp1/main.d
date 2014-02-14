@@ -14,7 +14,6 @@ import std.file;
 import std.string;
 import std.stdio;
 
-
 int main(string[] argv)
 {
 	try

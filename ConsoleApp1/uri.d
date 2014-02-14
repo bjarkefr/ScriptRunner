@@ -1,5 +1,3 @@
-//I took this file directly off MikevanDongen's GitHub page - Note that it is under the boost license.
-
 //Written in the D programming language
 
 /++

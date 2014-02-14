@@ -42,17 +42,21 @@ public class MongoVersionTagger : DBVersionTagger
 {
 	private string collection;
 	private MongoDatabase database;
-	private MongoCollection versionCollection;
 
 	public this(string connection, string collection)
 	{
-		auto paths = URI(connection).path;
+		URI conn = URI(connection);
+		auto paths = conn.path;
 		if (paths.length != 1)
 		    throw new DBVersioningException("Missing database name in mongodb connection string");
-		
+
 		string database = paths[0];
 
-		this.database = connectMongoDB(connection).getDatabase(database);
+		auto query = conn.query; // some pretty crazy stuff happended without safe=true. Sometimes the database ignores all updates...?? I don't understand why. Normaly writes should succed with or without a safe flag...?
+		query["safe"] = "true";
+		conn.query = query;
+
+		this.database = connectMongoDB(conn.toString()).getDatabase(database);
 		this.collection = collection;
 	}
 

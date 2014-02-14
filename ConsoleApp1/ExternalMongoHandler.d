@@ -2,6 +2,7 @@ module BackendImpl.MongoDB.ExternalMongoHandler;
 
 import ScriptDispatch.GenericHandler;
 import std.net.uri; // from the extras section - I took this file directly off MikevanDongen's GitHub page
+import std.string;
 
 public class MongoHandlerException : Exception
 {
@@ -10,6 +11,8 @@ public class MongoHandlerException : Exception
 
 public class ExternalMongoHandler : GenericHandler
 {
+	private string arguments;
+
 	private static string connWithoutScheme(URI conn)
 	{
 		URI noScheme = URI();
@@ -22,7 +25,7 @@ public class ExternalMongoHandler : GenericHandler
 		return noScheme.toString()[3..$];
 	}
 
-	private static getTemplate(string conn)
+	private static getArguments(string conn)
 	{
 		URI uri = URI(conn);
 		if (uri.scheme != "mongodb")
@@ -36,21 +39,22 @@ public class ExternalMongoHandler : GenericHandler
 		if (uri.password.length > 0)
 			mongoTemp ~= " -p " ~ uri.password;
 
-		return mongoTemp ~ " %s";
+		return mongoTemp;
 	}
 
 	this(string extension, string conn)
 	{
-		super(extension, "mongo", getTemplate(conn));
+		super(extension, "mongo");
+		arguments = getArguments(conn);
 	}
 
 	public override void SanityCheck(string fullpath)
 	{
-		super.Run("--eval \"print('Mongo launcher connection test success')\"");
+		super.Run(arguments ~ " --eval \"print('Mongo launcher connection test success')\"");
 	}
 
 	public override void Run(string fullpath)
 	{
-		super.Run("\"" ~ fullpath ~ "\"");
+		super.Run(arguments ~ " \"" ~ fullpath ~ "\"");
 	}
 }

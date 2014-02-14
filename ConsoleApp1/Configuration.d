@@ -36,9 +36,9 @@ public class ConfigurationImpl
 			   "mode_run|r", &mr,
 			   "mode_init|i", &mi,
 			   "mode_force_reset|f", &mf,
-			   "reset_version|v", &ResetVersion,
+			   "reset_version|n", &ResetVersion,
 			   "tag", &Tag,
-			   "scripts_folder|f", &ScriptsFolder);
+			   "scripts_folder|d", &ScriptsFolder);
 
 		if(backend is null && help)
 		{
@@ -48,10 +48,10 @@ public class ConfigurationImpl
 			writeln("    --help|-h when used with -d print backend specific help text");
 			writeln("  --mode_run|-r instructs the tool to run versioned scripts");
 			writeln("    --tag <str> when used with -r the database is tagged with <str>");
-			writeln("	 --scripts_folder|-f specify scripts folder");
+			writeln("	 --scripts_folder|-d specify scripts folder");
 			writeln("  --mode_init|-i instructs the tool to (re)initialize the database's versioning information");
 			writeln("  --mode_force_reset|-f instructs the tool to set the database versioning info back into normal mode at version 0");
-			writeln("    --reser_version|-v specify verion other than 0 for the -f switch");
+			writeln("    --reser_version|-n specify verion other than 0 for the -f switch");
 			writeln("  no mode will print database version information on the console");
 			exit(0);
 		}
@@ -67,7 +67,7 @@ public class ConfigurationImpl
 			Mode = ModeType.RunScripts;
 		else if(mi)
 			Mode = ModeType.InitializeDB;
-		else if(mr)
+		else if(mf)
 			Mode = ModeType.ResetDB;
 		else
 			Mode = ModeType.PrintVersion;

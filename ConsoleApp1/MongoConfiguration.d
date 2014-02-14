@@ -24,7 +24,7 @@ public class MongoConfigurationFactory : ConfigurationFactory
 public class MongoConfiguration : DBConfiguration
 {
 	private string ConnectionString;
-	private string VersionCollection = "_Version";
+	private string VersionCollection = "Version";
 
 	this(string[] args, bool help)
 	{

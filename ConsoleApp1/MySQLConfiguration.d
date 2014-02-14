@@ -4,6 +4,7 @@ import Configuration.ConfigurationFactory;
 import Backend.DBVersionTagger;
 import ScriptDispatch.ScriptDispatcher;
 import BackendImpl.MySQL.MySQLVersionTagger;
+import BackendImpl.MySQL.ExternalMySQLHandler;
 
 import std.getopt;
 import std.stdio;
@@ -34,7 +35,7 @@ public class MySQLConfiguration : DBConfiguration
 
 		if(help)
 		{
-			writeln("    -connection|-c <str> specify the mysql connection string");
+			writeln("    -connection|-c <str> specify the mysql connection string, format: \"host=localhost;port=3306;user=root;pwd=password;db=test\"");
 			writeln("    -version_table <name> specify name of the verioning table");
 			exit(0);
 		}
@@ -50,6 +51,8 @@ public class MySQLConfiguration : DBConfiguration
 
 	public ScriptDispatcher GetScriptDispatcher()
 	{
-		return null;
+		auto dispatcher = new ScriptDispatcher();
+		dispatcher.AddHandler(new ExternalMySQLHandler("sql", ConnectionString));
+		return dispatcher;
 	}
 }
