@@ -13,3 +13,5 @@ The tool is written so that it should be fairly simple to:
  - even getting scripts from other sources (at the moment they have to be stored in a filesystem folder).
 
 Note: I'm planning to switch away from using VisualD and make the project a standard dub project.
+
+This project is fairly difficult to compile at the moment, so unless you are really interested wait for the change to dub.
